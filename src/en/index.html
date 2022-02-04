@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-142997649-1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-142997649-1');
+    </script>
+    <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Emoji Concentration</title>
+    <meta name="description" content="Game English for kids. Find matching pairs of emojis and words!">
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', function() {
+          navigator.serviceWorker.register('/emoji-concentration/sw.js');
+        });
+      }
+    </script>
+    <link rel="apple-touch-icon" sizes="180x180" href="/emoji-concentration/favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="48x48" href="/emoji-concentration/favicon/favicon-48x48.png">
+    <link rel="manifest" href="/emoji-concentration/favicon/site.webmanifest">
+    <link rel="mask-icon" href="/emoji-concentration/favicon/safari-pinned-tab.svg" color="#5bbad5">
+    <link rel="shortcut icon" href="/emoji-concentration/favicon/favicon.ico">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="msapplication-config" content="/emoji-concentration/favicon/browserconfig.xml">
+    <meta name="theme-color" content="#ffffff">
+    <link rel="alternate" href="https://marmooo.github.io/emoji-concentration/" hreflang="x-default">
+    <link rel="alternate" href="https://marmooo.github.io/emoji-concentration/ja/" hreflang="ja">
+    <link rel="alternate" href="https://marmooo.github.io/emoji-concentration/en/" hreflang="en">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <style>
+      #catsWalk { height:30vh; text-align:center; position:relative; }
+      .walker { cursor:pointer; touch-action:none; }
+      .emoji { font-size:5rem; }
+      .card { width:150px; margin:0.5rem; padding:1rem; }
+      .card-img { width:100%; height:100%; object-fit:contain; }
+      @media (max-width: 768px) {
+        .emoji { font-size:3rem; }
+        .card { width:100px; margin:0.25rem; padding:0.5rem; }
+      }
+      html[data-theme="dark"] { filter: invert(1) hue-rotate(180deg) brightness(1.5); }
+      @-moz-document url-prefix() { html[data-theme="dark"] { background-color:black; } }
+    </style>
+    <script data-ad-client="ca-pub-6459713332128733" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+  </head>
+  <body>
+    <header id="header">
+      <nav class="navbar navbar-expand navbar-light">
+        <div class="container flex-wrap">
+          <a class="navbar-brand" href="/emoji-concentration/">
+            <img alt="Emoji Concentration" src="/emoji-concentration/favicon/favicon-48x48.png" width="32" height="32">
+            Emoji Concentration
+          </a>
+          <div class="navbar-nav">
+            <select id="lang" class="form-select form-select-sm" aria-label="lang">
+              <option value="ja">日本語</option>
+              <option value="en" selected>English</option>
+            </select>
+            <select id="levelOption" class="form-select form-select-sm ms-1" aria-label="level">
+              <option>Lv.1</option>
+              <option>Lv.2</option>
+              <option>Lv.3</option>
+              <option>Lv.4</option>
+              <option>Lv.5</option>
+            </select>
+            <select id="courseOption" class="form-select form-select-sm ms-1" aria-label="course">
+              <option>People</option>
+              <option>Clothes</option>
+              <option>Animals</option>
+              <option>Nature</option>
+              <option>Food</option>
+              <option>Activity</option>
+              <option>Travel</option>
+              <option>Objects</option>
+              <option>Necessaries</option>
+              <option>Symbols</option>
+            </select>
+            <button id="mode" class="btn btn-secondary btn-sm ms-1">EASY</button>
+            <button title="toggle dark-mode" id="toggleDarkMode" class="fs-4 btn p-0 ms-1">🌓</button>
+          </div>
+        </div>
+      </nav>
+    </header>
+    <main class="container">
+      <noscript>
+        <div class="alert alert-warning">Please turn on Javascript.</div>
+      </noscript>
+      <div id="noTTS" class="alert alert-warning text-center d-none">
+        Your browser does not support text-to-speech, please use Chrome / Safari.
+      </div>
+      <p>Game English for kids. Find matching pairs of emojis and words!</p>
+      <div id="playPanel" class="text-center pt-3">
+        <div id="choices" class="d-flex flex-wrap justify-content-center">
+          <div role="button" class="card bg-light">
+            <div class="front d-none">
+              <div class="emoji">🍛</div>
+              <div class="text">curry rice</div>
+            </div>
+            <div class="back bg-secondary rounded h-100">
+              <img src="/emoji-concentration/kohacu.webp" width="128" height="128" class="card-img" alt="choice">
+            </div>
+          </div>
+          <div role="button" class="card bg-light">
+            <div class="front d-none">
+              <div class="emoji">🍛</div>
+              <div class="text">curry rice</div>
+            </div>
+            <div class="back bg-secondary rounded h-100">
+              <img src="/emoji-concentration/kohacu.webp" width="128" height="128" class="card-img" alt="choice">
+            </div>
+          </div>
+          <div role="button" class="card bg-light">
+            <div class="front">
+              <div class="emoji">🍣</div>
+              <div class="text">sushi</div>
+            </div>
+            <div class="back d-none bg-secondary rounded h-100">
+              <img src="/emoji-concentration/kohacu.webp" width="128" height="128" class="card-img" alt="choice">
+            </div>
+          </div>
+          <div role="button" class="card bg-light">
+            <div class="front d-none">
+              <div class="emoji">🍡</div>
+              <div class="text">dango</div>
+            </div>
+            <div class="back bg-secondary rounded h-100">
+              <img src="/emoji-concentration/kohacu.webp" width="128" height="128" class="card-img" alt="choice">
+            </div>
+          </div>
+          <div role="button" class="card bg-light">
+            <div class="front d-none">
+              <div class="emoji">🍡</div>
+              <div class="text">dango</div>
+            </div>
+            <div class="back bg-secondary rounded h-100">
+              <img src="/emoji-concentration/kohacu.webp" width="128" height="128" class="card-img" alt="choice">
+            </div>
+          </div>
+          <div role="button" class="card bg-light">
+            <div class="front d-none">
+              <div class="emoji">🍣</div>
+              <div class="text">sushi</div>
+            </div>
+            <div class="back bg-secondary rounded h-100">
+              <img src="/emoji-concentration/kohacu.webp" width="128" height="128" class="card-img" alt="choice">
+            </div>
+          </div>
+        </div>
+        <div id="catsWalk" class="pt-4 text-center">
+        </div>
+      </div>
+    </main>
+    <footer class="pt-4 alert text-center">
+      <div>
+        <a class="px-1" href="/">Home</a>
+        <a class="px-1" href="/terms/">Terms</a>
+        <a class="px-1" href="https://github.com/marmooo/emoji-concentration">Contact</a>
+      </div>
+      <div class="text-muted">&copy; <a href="https://github.com/marmooo">marmooo</a></div>
+    </footer>
+    <template id="choice-box">
+      <button class="card bg-light">
+        <div class="front d-none">
+          <div class="emoji"></div>
+          <div class="text"></div>
+        </div>
+        <div class="back bg-secondary rounded h-100">
+          <img src="/emoji-concentration/kohacu.webp" width="128" height="128" class="card-img" alt="choice">
+        </div>
+      </button>
+    </template>
+    <script src="/emoji-concentration/index.js"></script>
+  </body>
+</html>
