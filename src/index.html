@@ -156,7 +156,16 @@
       </div>
     </main>
     <footer class="pt-4 alert text-center">
-      <div>
+      <div class="table-responsive">
+        <label>Supporting Status (2022):</label>
+        <table class="table table-sm table-striped w-auto m-auto text-nowrap">
+          <tr><td>◎</td><td>Android / Windows 11</td><td>fully supported</td>
+          <tr><td>○</td><td>Linux</td><td>fully supported (but required emoji fonts)</td>
+          <tr><td>△</td><td>Windows 10</td><td>some emojis are broken (ZWJ is not supported)</td>
+          <tr><td>×</td><td>iOS / Mac</td><td>not supported (4bytes UTF8 String is not supported)</td>
+        </table>
+      </div>
+      <div class="pt-3">
         <a class="px-1" href="/">Home</a>
         <a class="px-1" href="/terms/">Terms</a>
         <a class="px-1" href="https://github.com/marmooo/emoji-concentration">Contact</a>
