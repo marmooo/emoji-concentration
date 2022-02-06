@@ -24,7 +24,7 @@ backed.forEach((c)=>{c.querySelector(".back").onclick=()=>{};c.classList.add("cl
 choice.parentNode.style.pointerEvents="auto";};}
 rotateCard(front,back);};});}
 function initProblems(){const lang=document.documentElement.lang;fetch(`/emoji-concentration/data/${lang}.csv`).then((response)=>response.text()).then((tsv)=>{let prevEn;tsv.trim().split(/\n/).forEach((line)=>{const[emoji,category,en,_]=line.split(",");if(category in problems===false){problems[category]=[];}
-if(prevEn==en){problems[category].at(-1)[0].push(emoji);}else{problems[category].push([[emoji],en]);}
+if(prevEn==en){problems[category].slice(-1)[0].push(emoji);}else{problems[category].push([[emoji],en]);}
 prevEn=en;});});}
 function rotateCard(front,back){function rotateAnimationLoop(obj,deg){if(deg<=180){rotateAnimation(obj,deg);setTimeout(()=>{rotateAnimationLoop(obj,deg+=5);},1);}else{obj.style.transform=null;}}
 function rotateAnimation(obj,deg){if(90===deg){if(obj==front){front.classList.add("d-none");back.classList.remove("d-none");}else{front.classList.remove("d-none");back.classList.add("d-none");}}else{obj.style.transform=`rotateY(${deg}deg)`;}}

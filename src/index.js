@@ -289,7 +289,7 @@ function initProblems() {
           problems[category] = [];
         }
         if (prevEn == en) {
-          problems[category].at(-1)[0].push(emoji);
+          problems[category].slice(-1)[0].push(emoji);
         } else {
           problems[category].push([[emoji], en]);
         }
