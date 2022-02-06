@@ -23,7 +23,7 @@ function initEvents(){const choices=[...document.getElementById("choices").child
 backed.forEach((c)=>{c.querySelector(".back").onclick=()=>{};c.classList.add("cleared");});}else{playAudio(incorrectAudio);rotateCardAll(backed);}}
 choice.parentNode.style.pointerEvents="auto";};}
 rotateCard(front,back);};});}
-function initProblems(){const lang=document.documentElement.lang;fetch(`/emoji-concentration/data/${lang}.csv`).then((response)=>response.text()).then((tsv)=>{let prevEn;tsv.trim().split(/\n/).forEach((line)=>{const[emoji,category,en,_]=line.split(",");if(category in problems===false){problems[category]=[];}
+function initProblems(){const lang=document.documentElement.lang;fetch(`/emoji-concentration/data/${lang}.csv`).then((response)=>response.text()).then((tsv)=>{let prevEn;tsv.trimEnd().split("\n").forEach((line)=>{const[emoji,category,en,_]=line.split(",");if(category in problems===false){problems[category]=[];}
 if(prevEn==en){problems[category].slice(-1)[0].push(emoji);}else{problems[category].push([[emoji],en]);}
 prevEn=en;});});}
 function rotateCard(front,back){function rotateAnimationLoop(obj,deg){if(deg<=180){rotateAnimation(obj,deg);setTimeout(()=>{rotateAnimationLoop(obj,deg+=5);},1);}else{obj.style.transform=null;}}
