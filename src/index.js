@@ -283,7 +283,7 @@ function initProblems() {
     .then((response) => response.text())
     .then((tsv) => {
       let prevEn;
-      tsv.trim().split(/\n/).forEach((line) => {
+      tsv.trimEnd().split("\n").forEach((line) => {
         const [emoji, category, en, _] = line.split(",");
         if (category in problems === false) {
           problems[category] = [];
