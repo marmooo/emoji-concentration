@@ -236,9 +236,7 @@ function speechOnEnd(choice, choiceText, choices, backed) {
       }
     });
     if (equalAll) {
-      const cleared = choices.filter((c) =>
-        c.classList.contains("cleared")
-      );
+      const cleared = choices.filter((c) => c.classList.contains("cleared"));
       if (cleared.length == choices.length - backed.length) {
         playAudio(correctAllAudio);
       } else {
@@ -277,7 +275,7 @@ function initEvents() {
         if (/(iPad|iPhone|iPod)/.test(navigator.userAgent)) {
           setTimeout(() => {
             speechOnEnd(choice, choiceText, choices, backed);
-          }, 2000)
+          }, 2000);
         } else {
           msg.onend = () => {
             speechOnEnd(choice, choiceText, choices, backed);
