@@ -228,6 +228,34 @@ function rotateCardAll(backed) {
   });
 }
 
+function speechOnEnd(choice, choiceText, choices, backed) {
+  if (backed.length >= 2) {
+    const equalAll = backed.every((c) => {
+      if (c.querySelector(".text").textContent == choiceText) {
+        return true;
+      }
+    });
+    if (equalAll) {
+      const cleared = choices.filter((c) =>
+        c.classList.contains("cleared")
+      );
+      if (cleared.length == choices.length - backed.length) {
+        playAudio(correctAllAudio);
+      } else {
+        playAudio(correctAudio);
+      }
+      backed.forEach((c) => {
+        c.querySelector(".back").onclick = () => {};
+        c.classList.add("cleared");
+      });
+    } else {
+      playAudio(incorrectAudio);
+      rotateCardAll(backed);
+    }
+  }
+  choice.parentNode.style.pointerEvents = "auto";
+}
+
 function initEvents() {
   const choices = [...document.getElementById("choices").children];
   choices.forEach((choice) => {
@@ -244,33 +272,17 @@ function initEvents() {
         backed.push(choice);
         const choiceText = choice.querySelector(".text").textContent;
         const msg = speak(choiceText);
-        msg.onend = () => {
-          if (backed.length >= 2) {
-            const equalAll = backed.every((c) => {
-              if (c.querySelector(".text").textContent == choiceText) {
-                return true;
-              }
-            });
-            if (equalAll) {
-              const cleared = choices.filter((c) =>
-                c.classList.contains("cleared")
-              );
-              if (cleared.length == choices.length - backed.length) {
-                playAudio(correctAllAudio);
-              } else {
-                playAudio(correctAudio);
-              }
-              backed.forEach((c) => {
-                c.querySelector(".back").onclick = () => {};
-                c.classList.add("cleared");
-              });
-            } else {
-              playAudio(incorrectAudio);
-              rotateCardAll(backed);
-            }
-          }
-          choice.parentNode.style.pointerEvents = "auto";
-        };
+
+        // iOS API is broken
+        if (/(iPad|iPhone|iPod)/.test(navigator.userAgent)) {
+          setTimeout(() => {
+            speechOnEnd(choice, choiceText, choices, backed);
+          }, 2000)
+        } else {
+          msg.onend = () => {
+            speechOnEnd(choice, choiceText, choices, backed);
+          };
+        }
       }
       rotateCard(front, back);
     };
