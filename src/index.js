@@ -272,7 +272,7 @@ function initEvents() {
         const msg = speak(choiceText);
 
         // iOS API is broken
-        if (/(iPad|iPhone|iPod)/.test(navigator.userAgent)) {
+        if (/(iPad|iPhone|iPod|Macintosh)/.test(navigator.userAgent)) {
           setTimeout(() => {
             speechOnEnd(choice, choiceText, choices, backed);
           }, 2000);
