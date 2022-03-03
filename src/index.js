@@ -171,9 +171,11 @@ function catsWalk() {
   }, 10);
 }
 
-function selectRandomEmoji() {
-  const categories = Object.keys(problems);
-  const category = categories[getRandomInt(0, categories.length)];
+function selectRandomEmoji(category) {
+  if (!category) {
+    const categories = Object.keys(problems);
+    category = categories[getRandomInt(0, categories.length)];
+  }
   const p = problems[category];
   const problem = p[getRandomInt(0, p.length)];
   const emojis = problem[0];
@@ -294,7 +296,8 @@ function initProblems() {
     .then((tsv) => {
       let prevEn;
       tsv.trimEnd().split("\n").forEach((line) => {
-        const [emoji, category, en, _] = line.split(",");
+        const [emoji, cat, en, _] = line.split(",");
+        const category = cat[0].toUpperCase() + cat.slice(1);
         if (category in problems === false) {
           problems[category] = [];
         }
@@ -351,7 +354,9 @@ function changeLevel() {
   const problemLength = 3 + level * 2;
   while (true) {
     if (Object.keys(target).length < problemLength) {
-      const [emoji, text] = selectRandomEmoji();
+      const categories = document.getElementById("courseOption");
+      const category = categories[categories.selectedIndex].textContent;
+      const [emoji, text] = selectRandomEmoji(category);
       target[text] = emoji;
     } else {
       break;
@@ -382,6 +387,7 @@ catsWalk();
 document.getElementById("toggleDarkMode").onclick = toggleDarkMode;
 document.getElementById("mode").onclick = changeMode;
 document.getElementById("levelOption").onchange = changeLevel;
+document.getElementById("courseOption").onchange = changeLevel;
 document.getElementById("lang").onchange = changeLang;
 document.addEventListener("click", unlockAudio, {
   once: true,
