@@ -353,8 +353,8 @@ function changeLevel() {
   const problemLength = 3 + level * 2;
   while (true) {
     if (Object.keys(target).length < problemLength) {
-      const categories = document.getElementById("courseOption");
-      const category = categories[categories.selectedIndex].textContent.toLowerCase().trimEnd();
+      const course = document.getElementById("courseOption");
+      const category = course[course.selectedIndex].value.toLowerCase();
       const [emoji, text] = selectRandomEmoji(category);
       target[text] = emoji;
     } else {
