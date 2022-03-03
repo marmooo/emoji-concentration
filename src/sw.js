@@ -1,4 +1,4 @@
-var CACHE_NAME = '2022-03-03 22:15';
+var CACHE_NAME = '2022-03-03 22:55';
 var urlsToCache = [
   "/emoji-concentration/",
   "/emoji-concentration/index.js",

@@ -296,8 +296,7 @@ function initProblems() {
     .then((tsv) => {
       let prevEn;
       tsv.trimEnd().split("\n").forEach((line) => {
-        const [emoji, cat, en, _] = line.split(",");
-        const category = cat[0].toUpperCase() + cat.slice(1);
+        const [emoji, category, en, _] = line.split(",");
         if (category in problems === false) {
           problems[category] = [];
         }
@@ -355,7 +354,7 @@ function changeLevel() {
   while (true) {
     if (Object.keys(target).length < problemLength) {
       const categories = document.getElementById("courseOption");
-      const category = categories[categories.selectedIndex].textContent;
+      const category = categories[categories.selectedIndex].textContent.toLowerCase().trimEnd();
       const [emoji, text] = selectRandomEmoji(category);
       target[text] = emoji;
     } else {
