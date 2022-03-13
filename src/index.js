@@ -301,7 +301,9 @@ function initProblems() {
           problems[category] = [];
         }
         if (prevEn == en) {
-          problems[category].slice(-1)[0].push(emoji);
+          const categories = problems[category];
+          const last = categories[categories.length - 1];
+          last[0].push(emoji);
         } else {
           problems[category].push([[emoji], en]);
         }
