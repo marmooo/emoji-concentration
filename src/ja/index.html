@@ -90,8 +90,12 @@
       <noscript>
         <div class="alert alert-warning">JavaScript を ON にしてください</div>
       </noscript>
-      <div id="noTTS" class="alert alert-warning text-center d-none">
-        お使いのブラウザは音声読み上げに対応していません。Chrome / Safari をご利用ください。
+      <div id="noTTS" class="alert alert-warning d-none">
+        <p>お使いのブラウザは音声読み上げに対応していません。
+        Firefox for Linux は発話モジュールをインストールしてください。例:
+        </p>
+        <pre><code>sudo apt install speech-dispatcher
+sudo apt install festival speech-dispatcher-festival</code></pre>
       </div>
       <p>ゲーム英語！絵文字で神経衰弱をしよう！</p>
       <div id="playPanel" class="text-center pt-3">
