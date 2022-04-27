@@ -1,4 +1,4 @@
-var CACHE_NAME = '2022-03-25 00:30';
+var CACHE_NAME = '2022-04-28 00:05';
 var urlsToCache = [
   "/emoji-concentration/",
   "/emoji-concentration/index.js",
@@ -9,7 +9,7 @@ var urlsToCache = [
   "/emoji-concentration/mp3/incorrect1.mp3",
   "/emoji-concentration/mp3/correct1.mp3",
   "/emoji-concentration/mp3/correct3.mp3",
-  "/emoji-concentration/favicon/original.svg",
+  "/emoji-concentration/favicon/favicon.svg",
   "https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css",
 ];
 
