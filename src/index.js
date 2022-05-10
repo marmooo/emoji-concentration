@@ -101,7 +101,7 @@ function loadVoices() {
         if (!supported) {
           document.getElementById("noTTS").classList.remove("d-none");
         }
-      }, 1000);
+      }, 500);
     }
   });
   allVoicesObtained.then((voices) => {
