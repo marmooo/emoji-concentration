@@ -2,8 +2,8 @@ var CACHE_NAME = "2022-05-23 00:10";
 var urlsToCache = [
   "/emoji-concentration/",
   "/emoji-concentration/index.js",
-  "/emoji-concentration/en/",
-  "/emoji-concentration/data/en.csv",
+  "/emoji-concentration/ja/",
+  "/emoji-concentration/data/ja.csv",
   "/emoji-concentration/mp3/incorrect1.mp3",
   "/emoji-concentration/mp3/correct1.mp3",
   "/emoji-concentration/mp3/correct3.mp3",
