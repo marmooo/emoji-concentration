@@ -1,6 +1,6 @@
 # Emoji Concentration
 
-Game English for kids. Find matching pairs of emojis and words!
+Game English/Japanese for kids. Find matching pairs of emojis and words!
 
 ## Build
 
