@@ -1,4 +1,7 @@
 const ttsLang = getTTSLang();
+const categories = [...document.getElementById("courseOption").options].map(
+  (x) => x.value.toLowerCase(),
+);
 const problems = {};
 let englishVoices = [];
 let correctAudio, correctAllAudio, incorrectAudio;
@@ -86,13 +89,13 @@ function loadAudios() {
 
 function loadVoices() {
   // https://stackoverflow.com/questions/21513706/
-  const allVoicesObtained = new Promise(function (resolve) {
+  const allVoicesObtained = new Promise((resolve) => {
     let voices = speechSynthesis.getVoices();
     if (voices.length !== 0) {
       resolve(voices);
     } else {
       let supported = false;
-      speechSynthesis.addEventListener("voiceschanged", function () {
+      speechSynthesis.addEventListener("voiceschanged", () => {
         supported = true;
         voices = speechSynthesis.getVoices();
         resolve(voices);
@@ -146,12 +149,12 @@ function catWalk(freq, emoji, text) {
   const size = 128;
   canvas.style.top = getRandomInt(0, height - size) + "px";
   canvas.style.left = width - size + "px";
-  canvas.addEventListener("click", function () {
+  canvas.addEventListener("click", () => {
     speak(text);
-    this.remove();
+    canvas.remove();
   }, { once: true });
   area.appendChild(canvas);
-  const timer = setInterval(function () {
+  const timer = setInterval(() => {
     const x = parseInt(canvas.style.left) - 1;
     if (x > -size) {
       canvas.style.left = x + "px";
@@ -163,7 +166,7 @@ function catWalk(freq, emoji, text) {
 }
 
 function catsWalk() {
-  setInterval(function () {
+  setInterval(() => {
     if (Math.random() > 0.995) {
       const [emoji, text] = selectRandomEmoji();
       catWalk(getRandomInt(5, 20), emoji, text);
@@ -173,7 +176,6 @@ function catsWalk() {
 
 function selectRandomEmoji(category) {
   if (!category) {
-    const categories = Object.keys(problems);
     category = categories[getRandomInt(0, categories.length)];
   }
   const p = problems[category];
@@ -301,8 +303,8 @@ function initProblems() {
           problems[category] = [];
         }
         if (prevEn == en) {
-          const categories = problems[category];
-          const last = categories[categories.length - 1];
+          const p = problems[category];
+          const last = p[p.length - 1];
           last[0].push(emoji);
         } else {
           problems[category].push([[emoji], en]);
@@ -356,7 +358,7 @@ function changeLevel() {
   while (true) {
     if (Object.keys(target).length < problemLength) {
       const course = document.getElementById("courseOption");
-      const category = course[course.selectedIndex].value.toLowerCase();
+      const category = categories[course.selectedIndex];
       const [emoji, text] = selectRandomEmoji(category);
       target[text] = emoji;
     } else {
