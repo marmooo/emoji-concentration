@@ -3,6 +3,7 @@ var urlsToCache = [
   "/emoji-concentration/",
   "/emoji-concentration/index.js",
   "/emoji-concentration/ja/",
+  "/emoji-concentration/ja/index.yomi",
   "/emoji-concentration/data/ja.csv",
   "/emoji-concentration/mp3/incorrect1.mp3",
   "/emoji-concentration/mp3/correct1.mp3",
