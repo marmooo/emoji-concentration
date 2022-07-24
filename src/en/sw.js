@@ -1,4 +1,4 @@
-var CACHE_NAME = "2022-06-15 00:10";
+var CACHE_NAME = "2022-07-24 00:46";
 var urlsToCache = [
   "/emoji-concentration/",
   "/emoji-concentration/index.js",
@@ -8,7 +8,7 @@ var urlsToCache = [
   "/emoji-concentration/mp3/correct1.mp3",
   "/emoji-concentration/mp3/correct3.mp3",
   "/emoji-concentration/favicon/favicon.svg",
-  "https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css",
+  "https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css",
 ];
 
 self.addEventListener("install", function (event) {
