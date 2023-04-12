@@ -237,12 +237,12 @@ function hideAllHints() {
   });
 }
 
-function changeMode() {
-  if (this.textContent == "EASY") {
-    this.textContent = "HARD";
+function changeMode(event) {
+  if (event.target.textContent == "EASY") {
+    event.target.textContent = "HARD";
     hideAllHints();
   } else {
-    this.textContent = "EASY";
+    event.target.textContent = "EASY";
     showAllHints();
   }
 }
