@@ -5,10 +5,11 @@ const categories = [...document.getElementById("courseOption").options].map(
 );
 const problems = {};
 let englishVoices = [];
-let correctAudio, correctAllAudio, incorrectAudio;
-loadAudios();
-const AudioContext = window.AudioContext || window.webkitAudioContext;
 const audioContext = new AudioContext();
+const audioBufferCache = {};
+loadAudio("correct", "/emoji-concentration/mp3/correct3.mp3");
+loadAudio("correctAll", "/emoji-concentration/mp3/correct1.mp3");
+loadAudio("incorrect", "/emoji-concentration/mp3/incorrect1.mp3");
 loadConfig();
 
 function loadConfig() {
@@ -64,50 +65,33 @@ function getTTSLang() {
   }
 }
 
-function playAudio(audioBuffer, volume) {
-  const audioSource = audioContext.createBufferSource();
-  audioSource.buffer = audioBuffer;
+async function playAudio(name, volume) {
+  const audioBuffer = await loadAudio(name, audioBufferCache[name]);
+  const sourceNode = audioContext.createBufferSource();
+  sourceNode.buffer = audioBuffer;
   if (volume) {
     const gainNode = audioContext.createGain();
     gainNode.gain.value = volume;
     gainNode.connect(audioContext.destination);
-    audioSource.connect(gainNode);
-    audioSource.start();
+    sourceNode.connect(gainNode);
+    sourceNode.start();
   } else {
-    audioSource.connect(audioContext.destination);
-    audioSource.start();
+    sourceNode.connect(audioContext.destination);
+    sourceNode.start();
   }
+}
+
+async function loadAudio(name, url) {
+  if (audioBufferCache[name]) return audioBufferCache[name];
+  const response = await fetch(url);
+  const arrayBuffer = await response.arrayBuffer();
+  const audioBuffer = await audioContext.decodeAudioData(arrayBuffer);
+  audioBufferCache[name] = audioBuffer;
+  return audioBuffer;
 }
 
 function unlockAudio() {
   audioContext.resume();
-}
-
-function loadAudio(url) {
-  return fetch(url)
-    .then((response) => response.arrayBuffer())
-    .then((arrayBuffer) => {
-      return new Promise((resolve, reject) => {
-        audioContext.decodeAudioData(arrayBuffer, (audioBuffer) => {
-          resolve(audioBuffer);
-        }, (err) => {
-          reject(err);
-        });
-      });
-    });
-}
-
-function loadAudios() {
-  promises = [
-    loadAudio("/emoji-concentration/mp3/correct3.mp3"),
-    loadAudio("/emoji-concentration/mp3/correct1.mp3"),
-    loadAudio("/emoji-concentration/mp3/incorrect1.mp3"),
-  ];
-  Promise.all(promises).then((audioBuffers) => {
-    correctAudio = audioBuffers[0];
-    correctAllAudio = audioBuffers[1];
-    incorrectAudio = audioBuffers[2];
-  });
 }
 
 function loadVoices() {
@@ -295,16 +279,16 @@ function speechOnEnd(choice, choiceText, choices, backed) {
     if (equalAll) {
       const cleared = choices.filter((c) => c.classList.contains("cleared"));
       if (cleared.length == choices.length - backed.length) {
-        playAudio(correctAllAudio);
+        playAudio("correctAll");
       } else {
-        playAudio(correctAudio);
+        playAudio("correct");
       }
       backed.forEach((c) => {
         c.querySelector(".back").onclick = () => {};
         c.classList.add("cleared");
       });
     } else {
-      playAudio(incorrectAudio);
+      playAudio("incorrect");
       rotateCardAll(backed);
     }
   }
