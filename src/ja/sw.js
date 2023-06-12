@@ -1,4 +1,4 @@
-var CACHE_NAME = "2023-04-13 01:10";
+var CACHE_NAME = "2023-06-12 10:15";
 var urlsToCache = [
   "/emoji-concentration/",
   "/emoji-concentration/index.js",
@@ -10,7 +10,6 @@ var urlsToCache = [
   "/emoji-concentration/mp3/correct3.mp3",
   "/emoji-concentration/favicon/favicon.svg",
   "https://marmooo.github.io/yomico/yomico.min.js",
-  "https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css",
 ];
 
 self.addEventListener("install", function (event) {
