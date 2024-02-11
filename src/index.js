@@ -281,14 +281,14 @@ function speechOnEnd(choice, choiceText, choices, backed) {
       if (cleared.length == choices.length - backed.length) {
         playAudio("correctAll");
       } else {
-        playAudio("correct, 0.3");
+        playAudio("correct", 0.3);
       }
       backed.forEach((c) => {
         c.querySelector(".back").onclick = () => {};
         c.classList.add("cleared");
       });
     } else {
-      playAudio("incorrect, 0.3");
+      playAudio("incorrect", 0.3);
       rotateCardAll(backed);
     }
   }
