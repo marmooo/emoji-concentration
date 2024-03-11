@@ -5,7 +5,7 @@ const categories = [...document.getElementById("courseOption").options].map(
 );
 const problems = {};
 let englishVoices = [];
-const audioContext = new AudioContext();
+const audioContext = new globalThis.AudioContext();
 const audioBufferCache = {};
 loadAudio("correct", "/emoji-concentration/mp3/correct3.mp3");
 loadAudio("correctAll", "/emoji-concentration/mp3/correct1.mp3");
@@ -154,7 +154,7 @@ loadVoices();
 
 function speak(text) {
   speechSynthesis.cancel();
-  const msg = new SpeechSynthesisUtterance(text);
+  const msg = new globalThis.SpeechSynthesisUtterance(text);
   msg.voice = englishVoices[Math.floor(Math.random() * englishVoices.length)];
   msg.lang = ttsLang;
   speechSynthesis.speak(msg);
