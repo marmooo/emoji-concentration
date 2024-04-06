@@ -1,9 +1,9 @@
 const htmlLang = document.documentElement.lang;
 const ttsLang = getTTSLang();
-const categories = [...document.getElementById("courseOption").options].map(
-  (x) => x.value.toLowerCase(),
-);
+const categories = [...document.getElementById("courseOption").options]
+  .map((x) => x.value.toLowerCase());
 const problems = {};
+let selected = document.getElementById("choices").children[2];
 let englishVoices = [];
 const audioContext = new globalThis.AudioContext();
 const audioBufferCache = {};
@@ -247,85 +247,63 @@ function changeMode(event) {
   }
 }
 
-function filterBacked(choice, choices) {
-  return choices.filter((c) => {
-    const front = c.querySelector(".back");
-    if (
-      !c.classList.contains("cleared") &&
-      front.classList.contains("d-none")
-    ) {
-      return true;
-    } else if (c == choice) {
-      return false;
-    }
-  });
-}
-
-function rotateCardAll(backed) {
-  backed.forEach((choice) => {
-    const front = choice.querySelector(".front");
-    const back = choice.querySelector(".back");
-    rotateCard(front, back);
-  });
-}
-
-function speechOnEnd(choice, choiceText, choices, backed) {
-  if (backed.length >= 2) {
-    const equalAll = backed.every((c) => {
-      if (c.querySelector(".text").textContent == choiceText) {
-        return true;
-      }
-    });
-    if (equalAll) {
-      const cleared = choices.filter((c) => c.classList.contains("cleared"));
-      if (cleared.length == choices.length - backed.length) {
+function speechOnEnd(choice, choices) {
+  if (selected) {
+    if (selected.textContent == choice.textContent) {
+      const notCleared = choices.filter((c) =>
+        !c.classList.contains("cleared")
+      );
+      const gameClear = notCleared.length == 2;
+      if (gameClear) {
         playAudio("correctAll");
       } else {
         playAudio("correct", 0.3);
       }
-      backed.forEach((c) => {
-        c.querySelector(".back").onclick = () => {};
-        c.classList.add("cleared");
-      });
+      selected.classList.add("cleared");
+      choice.classList.add("cleared");
     } else {
       playAudio("incorrect", 0.3);
-      rotateCardAll(backed);
+      rotateCard(selected);
+      rotateCard(choice);
     }
+    selected = null;
+  } else {
+    selected = choice;
   }
-  choice.parentNode.style.pointerEvents = "auto";
+  document.getElementById("choices").addEventListener("click", cardClickEvent);
+}
+
+function cardClickEvent(event) {
+  const container = document.getElementById("choices");
+  container.removeEventListener("click", cardClickEvent);
+  const target = document.elementsFromPoint(event.clientX, event.clientY)
+    .filter((node) => node.classList.contains("emoji-card"));
+  if (target.length == 0) return;
+  const choices = [...container.children];
+  const choice = target[0];
+  const front = choice.querySelector(".front");
+  if (front.classList.contains("d-none")) {
+    clickBackCard(choice, choices);
+  } else {
+    clickFrontCard(choice);
+  }
+}
+
+function clickFrontCard(choice) {
+  const choiceText = choice.querySelector(".text").textContent;
+  speak(choiceText);
+  document.getElementById("choices").addEventListener("click", cardClickEvent);
+}
+
+function clickBackCard(choice, choices) {
+  const choiceText = choice.querySelector(".text").textContent;
+  const msg = speak(choiceText);
+  msg.onend = () => speechOnEnd(choice, choices);
+  rotateCard(choice);
 }
 
 function initEvents() {
-  const choices = [...document.getElementById("choices").children];
-  choices.forEach((choice) => {
-    const front = choice.querySelector(".front");
-    const back = choice.querySelector(".back");
-    front.onclick = () => {
-      const choiceText = choice.querySelector(".text").textContent;
-      speak(choiceText);
-    };
-    back.onclick = () => {
-      choice.parentNode.style.pointerEvents = "none";
-      const backed = filterBacked(choice, choices);
-      if (front.classList.contains("d-none")) {
-        backed.push(choice);
-        const choiceText = choice.querySelector(".text").textContent;
-        const msg = speak(choiceText);
-
-        // iOS API is broken
-        if (/(iPad|iPhone|iPod|Macintosh)/.test(navigator.userAgent)) {
-          setTimeout(() => {
-            speechOnEnd(choice, choiceText, choices, backed);
-          }, 2000);
-        } else {
-          msg.onend = () => {
-            speechOnEnd(choice, choiceText, choices, backed);
-          };
-        }
-      }
-      rotateCard(front, back);
-    };
-  });
+  document.getElementById("choices").addEventListener("click", cardClickEvent);
 }
 
 function initProblems() {
@@ -351,7 +329,9 @@ function initProblems() {
 }
 
 // https://qiita.com/rspmharada7645/items/f32875b723ec8838c9f1
-function rotateCard(front, back) {
+function rotateCard(choice) {
+  const front = choice.querySelector(".front");
+  const back = choice.querySelector(".back");
   function rotateAnimationLoop(obj, deg) {
     if (deg <= 180) {
       rotateAnimation(obj, deg);
@@ -385,9 +365,10 @@ function rotateCard(front, back) {
 }
 
 function changeLevel() {
+  selected = null;
   const level = document.getElementById("levelOption").selectedIndex;
-  const choicesObj = document.getElementById("choices");
-  while (choicesObj.firstChild) choicesObj.removeChild(choicesObj.firstChild);
+  const container = document.getElementById("choices");
+  while (container.firstChild) container.removeChild(container.firstChild);
 
   const target = {};
   const problemLength = 3 + level * 2;
@@ -414,8 +395,7 @@ function changeLevel() {
     choices.push(choice.cloneNode(true));
   }
   shuffle(choices);
-  choices.forEach((choice) => choicesObj.appendChild(choice));
-  initEvents();
+  choices.forEach((choice) => container.appendChild(choice));
 }
 
 initEvents();
