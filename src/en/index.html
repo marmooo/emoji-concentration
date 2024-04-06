@@ -38,15 +38,15 @@
     <style>
       #catsWalk { height:30vh; text-align:center; position:relative; }
       .walker { cursor:pointer; touch-action:none; }
-      .card-img { width:100%; height:100%; object-fit:contain; }
       .front, .back { width:100%; height:100%; }
+      .card-img { width:100%; height:100%; object-fit:contain; }
       .emoji { font-size:5rem; }
       .emoji-card { width:150px; margin:0.5rem; padding:1rem; }
       @media (max-width: 768px) {
         .emoji { font-size:3rem; }
         .emoji-card { width:100px; margin:0.25rem; padding:0.5rem; }
       }
-      html[data-bs-theme="dark"] .favicon { filter: invert(1) hue-rotate(180deg) brightness(1.5); }
+      html[data-bs-theme="dark"] .navbar-brand > img { filter: invert(1) hue-rotate(180deg) brightness(1.5); }
       html[data-bs-theme="dark"] .btn-light {
         --bs-btn-color: #fff;
         --bs-btn-bg: var(--bs-gray-800);
@@ -116,8 +116,8 @@
 sudo apt install festival speech-dispatcher-festival</code></pre>
       </div>
       <p>Game English for kids. Find matching pairs of emojis and words!</p>
-      <div id="playPanel" class="text-center pt-3 notranslate">
-        <div id="choices" class="d-flex flex-wrap justify-content-center">
+      <div id="playPanel" class="text-center pt-3">
+        <div id="choices" class="d-flex flex-wrap justify-content-center notranslate">
           <div role="button" class="emoji-card btn btn-light border">
             <div class="front d-none">
               <div class="emoji">🍛</div>
