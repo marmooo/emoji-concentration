@@ -405,9 +405,8 @@ function changeLevel() {
   const targetEntries = Object.entries(target);
   const choices = [];
   for (let i = 0; i < targetEntries.length; i++) {
-    const choiceBox = document.getElementById("choice-box")
-      .content.cloneNode(true);
-    const choice = choiceBox.querySelector(".card");
+    const choice = document.getElementById("choice-box")
+      .content.firstElementChild.cloneNode(true);
     const [text, emoji] = targetEntries[i];
     choice.querySelector(".emoji").textContent = emoji;
     choice.querySelector(".text").textContent = text;
