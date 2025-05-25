@@ -1,5 +1,5 @@
 const htmlLang = document.documentElement.lang;
-const ttsLang = getTTSLang();
+const ttsLang = getTTSLang(htmlLang);
 const categories = [...document.getElementById("courseOption").options]
   .map((x) => x.value.toLowerCase());
 const problems = {};
@@ -53,7 +53,7 @@ function changeLang() {
   location.href = `/emoji-concentration/${lang}/`;
 }
 
-function getTTSLang() {
+function getTTSLang(htmlLang) {
   switch (htmlLang) {
     case "en":
       return "en-US";
@@ -72,6 +72,10 @@ function createAudioContext() {
 }
 
 function unlockAudio() {
+  const uttr = new SpeechSynthesisUtterance("");
+  uttr.lang = ttsLang;
+  speechSynthesis.speak(uttr);
+
   if (audioContext) {
     audioContext.resume();
   } else {
@@ -80,7 +84,7 @@ function unlockAudio() {
     loadAudio("correctAll", "/emoji-concentration/mp3/correct1.mp3");
     loadAudio("incorrect", "/emoji-concentration/mp3/incorrect1.mp3");
   }
-  document.removeEventListener("pointerdown", unlockAudio);
+  document.removeEventListener("click", unlockAudio);
   document.removeEventListener("keydown", unlockAudio);
 }
 
@@ -430,5 +434,5 @@ document.getElementById("mode").onclick = changeMode;
 document.getElementById("levelOption").onchange = changeLevel;
 document.getElementById("courseOption").onchange = changeLevel;
 document.getElementById("lang").onchange = changeLang;
-document.addEventListener("pointerdown", unlockAudio, { once: true });
+document.addEventListener("click", unlockAudio, { once: true });
 document.addEventListener("keydown", unlockAudio, { once: true });
