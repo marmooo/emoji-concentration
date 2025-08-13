@@ -327,26 +327,24 @@ function initEvents() {
   document.getElementById("choices").addEventListener("click", cardClickEvent);
 }
 
-function initProblems() {
-  fetch(`/emoji-concentration/data/${htmlLang}.csv`)
-    .then((response) => response.text())
-    .then((tsv) => {
-      let prevEn;
-      tsv.trimEnd().split("\n").forEach((line) => {
-        const [emoji, category, en, _] = line.split(",");
-        if (category in problems === false) {
-          problems[category] = [];
-        }
-        if (prevEn == en) {
-          const p = problems[category];
-          const last = p[p.length - 1];
-          last[0].push(emoji);
-        } else {
-          problems[category].push([[emoji], en]);
-        }
-        prevEn = en;
-      });
-    });
+async function initProblems() {
+  const response = await fetch(`/emoji-concentration/data/${htmlLang}.csv`);
+  const tsv = response.text();
+  let prevEn;
+  tsv.trimEnd().split("\n").forEach((line) => {
+    const [emoji, category, en, _] = line.split(",");
+    if (category in problems === false) {
+      problems[category] = [];
+    }
+    if (prevEn == en) {
+      const p = problems[category];
+      const last = p[p.length - 1];
+      last[0].push(emoji);
+    } else {
+      problems[category].push([[emoji], en]);
+    }
+    prevEn = en;
+  });
 }
 
 // https://qiita.com/rspmharada7645/items/f32875b723ec8838c9f1
@@ -420,7 +418,7 @@ function changeLevel() {
 }
 
 initEvents();
-initProblems();
+await initProblems();
 catsWalk();
 
 document.getElementById("toggleDarkMode").onclick = toggleDarkMode;
