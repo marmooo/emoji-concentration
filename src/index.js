@@ -307,9 +307,9 @@ function initEvents() {
 
 async function initProblems() {
   const response = await fetch(`/emoji-concentration/data/${htmlLang}.csv`);
-  const tsv = response.text();
+  const csv = await response.text();
   let prevEn;
-  tsv.trimEnd().split("\n").forEach((line) => {
+  csv.trimEnd().split("\n").forEach((line) => {
     const [emoji, category, en, _] = line.split(",");
     if (category in problems === false) {
       problems[category] = [];
