@@ -13,13 +13,6 @@ function loadConfig() {
   if (localStorage.getItem("darkMode") == 1) {
     document.documentElement.setAttribute("data-bs-theme", "dark");
   }
-  if (htmlLang == "ja") {
-    if (localStorage.getItem("furigana") == 1) {
-      const obj = document.getElementById("addFurigana");
-      addFurigana(obj);
-      obj.setAttribute("data-done", true);
-    }
-  }
 }
 
 function toggleDarkMode() {
@@ -29,21 +22,6 @@ function toggleDarkMode() {
   } else {
     localStorage.setItem("darkMode", 1);
     document.documentElement.setAttribute("data-bs-theme", "dark");
-  }
-}
-
-function addFurigana() {
-  if (htmlLang != "ja") return;
-  const obj = document.getElementById("addFurigana");
-  if (obj.getAttribute("data-done")) {
-    localStorage.setItem("furigana", 0);
-    location.reload();
-  } else {
-    import("https://marmooo.github.io/yomico/yomico.min.js").then((module) => {
-      module.yomico("/emoji-concentration/ja/index.yomi");
-    });
-    localStorage.setItem("furigana", 1);
-    obj.setAttribute("data-done", true);
   }
 }
 
@@ -422,8 +400,6 @@ await initProblems();
 catsWalk();
 
 document.getElementById("toggleDarkMode").onclick = toggleDarkMode;
-const furiganaButton = document.getElementById("addFurigana");
-if (furiganaButton) furiganaButton.onclick = addFurigana;
 document.getElementById("mode").onclick = changeMode;
 document.getElementById("levelOption").onchange = changeLevel;
 document.getElementById("courseOption").onchange = changeLevel;
